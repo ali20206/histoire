@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇫🇷 Révision - IVe et Ve République</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* QUIZ */
+        .quiz-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        /* CHRONOLOGIE */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            width: 48%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+            text-align: right;
+            padding-right: 5%;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 52%;
+            padding-left: 5%;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px #667eea;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            right: -35px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -35px;
+        }
+
+        .timeline-year {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .timeline-desc {
+            color: #666;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        /* COMPARAISON */
+        .comparison-table {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .comparison-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background: #f0f4ff;
+            transition: all 0.3s ease;
+        }
+
+        /* FICHES */
+        .fiche-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .fiche-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .fiche-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .fiche-content {
+            color: #333;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        .fiche-content strong {
+            color: #764ba2;
+        }
+
+        /* PERSONNAGES */
+        .personnage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .personnage-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .personnage-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .personnage-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .personnage-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .personnage-role {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .personnage-body {
+            padding: 20px;
+        }
+
+        .personnage-dates {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .personnage-desc {
+            color: #555;
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        /* BOUTONS */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f4ff;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* SCORE */
+        .score-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            font-weight: 600;
+            z-index: 1000;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .score-display.hide {
+            display: none;
+        }
+
+        .score-value {
+            font-size: 2em;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        /* RESPONSIF */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                margin-left: 0 !important;
+                padding-left: 40px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .timeline-content::after {
+                left: -35px !important;
+            }
+
+            .score-display {
+                position: static;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🇫🇷 RÉVISION RÉPUBLIQUES</h1>
+            <p>IVe et Ve République - Contrôle demain ? Let's go ! 🚀</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('quiz')">📝 QUIZ</button>
+            <button class="tab-btn" onclick="switchTab('timeline')">📅 CHRONOLOGIE</button>
+            <button class="tab-btn" onclick="switchTab('comparaison')">⚖️ COMPARAISON</button>
+            <button class="tab-btn" onclick="switchTab('personnages')">👤 PERSONNAGES</button>
+            <button class="tab-btn" onclick="switchTab('fiches')">📋 FICHES</button>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz" class="tab-content active">
+            <div class="quiz-card">
+                <div class="quiz-question">1️⃣ Qui est le fondateur de la Ve République ?</div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'De Gaulle est le fondateur de la Ve République en 1958')">A) François Mitterrand</button>
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'De Gaulle est le fondateur de la Ve République en 1958')">B) Charles de Gaulle</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'De Gaulle est le fondateur de la Ve République en 1958')">C) Jacques Chirac</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'De Gaulle est le fondateur de la Ve République en 1958')">D) Napoléon III</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-question">2️⃣ En quelle année les femmes françaises ont-elles obtenu le droit de voter ?</div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'Les femmes françaises ont obtenu le droit de vote en 1945, un peu tard comparé à d\'autres pays...')">A) 1945</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Les femmes françaises ont obtenu le droit de vote en 1945, un peu tard comparé à d\'autres pays...')">B) 1944</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Les femmes françaises ont obtenu le droit de vote en 1945, un peu tard comparé à d\'autres pays...')">C) 1965</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Les femmes françaises ont obtenu le droit de vote en 1945, un peu tard comparé à d\'autres pays...')">D) 1981</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-question">3️⃣ Quel grand changement a été fait en 1981 par Mitterrand ?</div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Mitterrand a aboli la peine de mort en 1981, supprimé l\'impôt sur la fortune, réduit l\'âge de retraite à 60 ans')">A) Augmentation de la retraite à 70 ans</button>
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'Mitterrand a aboli la peine de mort en 1981, supprimé l\'impôt sur la fortune, réduit l\'âge de retraite à 60 ans')">B) Abolition de la peine de mort</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Mitterrand a aboli la peine de mort en 1981, supprimé l\'impôt sur la fortune, réduit l\'âge de retraite à 60 ans')">C) Suppression de la Sécurité sociale</C>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Mitterrand a aboli la peine de mort en 1981, supprimé l\'impôt sur la fortune, réduit l\'âge de retraite à 60 ans')">D) Élection de l\'Assemblée nationale</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-question">4️⃣ Qu'est-ce qu'une "cohabitation" ?</div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'Une cohabitation est quand le Président et l\'Assemblée n\'ont pas la même majorité politique. Exemple : Mitterrand (gauche) avec Chirac (droite) de 1986 à 1988')">A) Quand le Président et l'Assemblée n'ont pas la même majorité</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Une cohabitation est quand le Président et l\'Assemblée n\'ont pas la même majorité politique. Exemple : Mitterrand (gauche) avec Chirac (droite) de 1986 à 1988')">B) Quand les citoyens vivent ensemble pacifiquement</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Une cohabitation est quand le Président et l\'Assemblée n\'ont pas la même majorité politique. Exemple : Mitterrand (gauche) avec Chirac (droite) de 1986 à 1988')">C) La fin de la Ve République</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Une cohabitation est quand le Président et l\'Assemblée n\'ont pas la même majorité politique. Exemple : Mitterrand (gauche) avec Chirac (droite) de 1986 à 1988')">D) Un pouvoir très fort du Président</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-question">5️⃣ Quel grand événement a secoué la Ve République en 1968 ?</div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Mai 1968 a vu une énorme révolte d\'étudiants et d\'ouvriers qui contestaient l\'autorité de De Gaulle')">A) La signature de la Constitution</button>
+                    <button class="option-btn" onclick="checkAnswer(this, true, 'Mai 1968 a vu une énorme révolte d\'étudiants et d\'ouvriers qui contestaient l\'autorité de De Gaulle')">B) Mai 1968 : révolte étudiante et ouvrière</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Mai 1968 a vu une énorme révolte d\'étudiants et d\'ouvriers qui contestaient l\'autorité de De Gaulle')">C) L'élection de Mitterrand</button>
+                    <button class="option-btn" onclick="checkAnswer(this, false, 'Mai 1968 a vu une énorme révolte d\'étudiants et d\'ouvriers qui contestaient l\'autorité de De Gaulle')">D) La création de la Sécurité Sociale</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- CHRONOLOGIE -->
+        <div id="timeline" class="tab-content">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1944-1945</div>
+                        <div class="timeline-title">Libération et droits des femmes</div>
+                        <div class="timeline-desc">Fin de l'Occupation. Les femmes obtiennent enfin le droit de vote et d'être élues.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1945</div>
+                        <div class="timeline-title">Création de la Sécurité Sociale</div>
+                        <div class="timeline-desc">Programme du CNR mis en place. Assurance maladie, retraite, protection sociale. Révolutionnaire !</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1946-1958</div>
+                        <div class="timeline-title">IVe République</div>
+                        <div class="timeline-desc">L'Assemblée nationale est toute-puissante mais chaotique. De Gaulle démissionne. Pas de majorité stable.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1954-1962</div>
+                        <div class="timeline-title">Guerre d'Algérie</div>
+                        <div class="timeline-desc">Conflit sanglant qui provoque le chaos en France et mène à la chute de la IVe République.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1958</div>
+                        <div class="timeline-title">Fondation de la Ve République</div>
+                        <div class="timeline-desc">De Gaulle revient ! Nouvelle Constitution par référendum. Le Président devient très puissant.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1965</div>
+                        <div class="timeline-title">Élection présidentielle directe</div>
+                        <div class="timeline-desc">De Gaulle relance l'élection directe du Président par les citoyens. Premier scrutin en 1965.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1968</div>
+                        <div class="timeline-title">Mai 1968</div>
+                        <div class="timeline-desc">Énorme révolte d'étudiants et d'ouvriers. De Gaulle panique. Il meurt 2 ans plus tard.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1981</div>
+                        <div class="timeline-title">L'Alternance</div>
+                        <div class="timeline-desc">François Mitterrand (socialiste) élu. Abolition peine de mort, impôt sur fortune, retraite à 60 ans.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1986-1988</div>
+                        <div class="timeline-title">Cohabitation Mitterrand-Chirac</div>
+                        <div class="timeline-desc">Le Président (gauche) et l'Assemblée (droite) ne s'entendent pas. Chirac supprime l'impôt sur la fortune.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2002</div>
+                        <div class="timeline-title">Passage au quinquennat</div>
+                        <div class="timeline-desc">Président et Assemblée élus en même temps. Moins de risque de cohabitation.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <div class="timeline-title">Dissolution et chaos</div>
+                        <div class="timeline-desc">Macron dissout l'Assemblée. Résultat : trois camps politiques, pas de majorité. Le retour du chaos !</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPARAISON -->
+        <div id="comparaison" class="tab-content">
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ASPECT</th>
+                            <th>IVe RÉPUBLIQUE (1946-1958)</th>
+                            <th>Ve RÉPUBLIQUE (1958-?)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>⏱️ Durée</strong></td>
+                            <td>12 ans (très instable)</td>
+                            <td>66+ ans (très stable jusqu'à 2024)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👑 Qui gouverne vraiment ?</strong></td>
+                            <td>L'Assemblée nationale (500 députés qui se battent)</td>
+                            <td>Le Président (1 mec puissant)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🎓 Constitution</strong></td>
+                            <td>Présidence faible, Assemblée super puissante</td>
+                            <td>Présidence ultra-puissante, Assemblée moins dominante</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🚀 Pouvoirs du Président</strong></td>
+                            <td>Limités (figuratif surtout)</td>
+                            <td>Énormes : nomme PM, dissout Assemblée, référendum, chef des armées</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🗳️ Alternance</strong></td>
+                            <td>Pas vraiment (gouvernements instables)</td>
+                            <td>1981 : rupture majeure avec Mitterrand (gauche)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>😤 Cohabitation</strong></td>
+                            <td>N/A</td>
+                            <td>1986-1988 (Mitterrand-Chirac), très tendue</td>
+                        </tr>
+                        <tr>
+                            <td><strong>👩 Droit des femmes</strong></td>
+                            <td>1945 : droit de vote et d'être élues (ENFIN !)</td>
+                            <td>Déjà en place, droits renforcés après 1981</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💪 Solidarité sociale</strong></td>
+                            <td>Sécurité Sociale créée (1945) : maladie, retraite, protection</td>
+                            <td>Sécurité Sociale toujours là, renforcée par Mitterrand</td>
+                        </tr>
+                        <tr>
+                            <td><strong>💰 Économie</strong></td>
+                            <td>Nationalisations (EDF, Banque de France), impôts sociaux</td>
+                            <td>Mitterrand : impôt sur la fortune (1981), puis supprimé par Chirac (1986)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>⚔️ Problèmes majeurs</strong></td>
+                            <td>Guerre d'Algérie (1954-1962) = chaos total</td>
+                            <td>Mai 1968 (révolte), puis longue stabilité jusqu'à 2024</td>
+                        </tr>
+                        <tr>
+                            <td><strong>🎯 Stabilité globale</strong></td>
+                            <td>💥 TRÈS instable (12 ans)</td>
+                            <td>✅ TRÈS stable (sauf 2024 = retour du chaos)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PERSONNAGES -->
+        <div id="personnages" class="tab-content">
+            <div class="personnage-grid">
+                <div class="personnage-card">
+                    <div class="personnage-header">
+                        <div class="personnage-name">Charles de Gaulle</div>
+                        <div class="personnage-role">Le Grand Revenant</div>
+                    </div>
+                    <div class="personnage-body">
+                        <div class="personnage-dates">1890-1970</div>
+                        <div class="personnage-desc">Fondateur de la Ve République (1958). Président autoritaire jusqu'à 1969. Rétablit l'élection présidentielle directe (1965). Démissionne après Mai 1968.</div>
+                    </div>
+                </div>
+
+                <div class="personnage-card">
+                    <div class="personnage-header">
+                        <div class="personnage-name">François Mitterrand</div>
+                        <div class="personnage-role">Le Révolutionnaire</div>
+                    </div>
+                    <div class="personnage-body">
+                        <div class="personnage-dates">1916-1996</div>
+                        <div class="personnage-desc">Élu en 1981 (première alternance gauche). Abolit la peine de mort, crée l'impôt sur la fortune, réduit retraite à 60 ans. Subit cohabitations 1986-1988 et 1993-1995.</div>
+                    </div>
+                </div>
+
+                <div class="personnage-card">
+                    <div class="personnage-header">
+                        <div class="personnage-name">Jacques Chirac</div>
+                        <div class="personnage-role">Le Cohabitant</div>
+                    </div>
+                    <div class="personnage-body">
+                        <div class="personnage-dates">1932-2019</div>
+                        <div class="personnage-desc">Premier ministre lors de la cohabitation 1986-1988 (avec Mitterrand). Supprime l'impôt sur la fortune. Devient Président en 1995-2007.</div>
+                    </div>
+                </div>
+
+                <div class="personnage-card">
+                    <div class="personnage-header">
+                        <div class="personnage-name">Emmanuel Macron</div>
+                        <div class="personnage-role">Le Moderne</div>
+                    </div>
+                    <div class="personnage-body">
+                        <div class="personnage-dates">1977-?</div>
+                        <div class="personnage-desc">Président depuis 2017. Dissout l'Assemblée en 2024, créant une situation chaotique : trois camps politiques, pas de majorité. Histoire en train de s'écrire !</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FICHES -->
+        <div id="fiches" class="tab-content">
+            <div class="fiche-card">
+                <div class="fiche-title">📌 DÉFINITIONS CLÉS</div>
+                <div class="fiche-content">
+                    <p><strong>Alternance :</strong> Quand un nouveau groupe politique (gauche/droite) prend le pouvoir à la place de l'ancien. Exemple : 1981, Mitterrand remplace la droite.</p><br>
+                    <p><strong>Cohabitation :</strong> Quand le Président et l'Assemblée ne sont pas du même bord politique. Ils doivent se partager le pouvoir. C'est tendu !</p><br>
+                    <p><strong>Référendum :</strong> Vote direct des citoyens : « Oui » ou « Non » à une question. De Gaulle l'utilise beaucoup.</p><br>
+                    <p><strong>Motion de censure :</strong> L'Assemblée renverse le gouvernement si elle n'est pas d'accord. Peut arriver en 2024.</p><br>
+                    <p><strong>Dissolution :</strong> Le Président renvoie l'Assemblée et demande de nouvelles élections. Macron l'a fait en 2024.</p>
+                </div>
+            </div>
+
+            <div class="fiche-card">
+                <div class="fiche-title">🇫🇷 LES TROIS PILIERS DE LA République</div>
+                <div class="fiche-content">
+                    <p><strong>🗽 LIBERTÉ :</strong> Libertés fondamentales garanties (expression, conscience, religion). Laïcité garantie.</p><br>
+                    <p><strong>⚖️ ÉGALITÉ :</strong> Les lois sont les mêmes pour tous. Lois contre les discriminations racistes et sexistes. Encore des progrès à faire.</p><br>
+                    <p><strong>🤝 FRATERNITÉ :</strong> Solidarité obligatoire via Sécurité Sociale, impôts. Aussi associations civiles (Restos du Cœur, etc.).</p>
+                </div>
+            </div>
+
+            <div class="fiche-card">
+                <div class="fiche-title">✅ POINTS CLÉS À CONNAÎTRE</div>
+                <div class="fiche-content">
+                    <p>✓ <strong>1945 :</strong> Les femmes votent ENFIN. Création de la Sécurité Sociale = révolutionnaire.</p><br>
+                    <p>✓ <strong>1946-1958 :</strong> IVe République chaotique. L'Assemblée trop puissante, le Président figuratif. Guerre d'Algérie = cauchemar.</p><br>
+                    <p>✓ <strong>1958 :</strong> De Gaulle revient. Nouvelle Constitution. Président devientROI (presque). Ve République est née.</p><br>
+                    <p>✓ <strong>1965 :</strong> Élection présidentielle directe relancée. Le peuple vote pour le Président, pas le Parlement.</p><br>
+                    <p>✓ <strong>1968 :</strong> Mai 68 = révolte énorme. De Gaulle panique. Il démissionne l'année suivante.</p><br>
+                    <p>✓ <strong>1981 :</strong> ALTERNANCE ! Mitterrand élu. Peine de mort abolie. Grande rupture pour la France.</p><br>
+                    <p>✓ <strong>1986-1988 :</strong> Cohabitation chaotique. Mitterrand (gauche) + Chirac (droite) premier ministre. Tensions politiques énormes.</p><br>
+                    <p>✓ <strong>2002 :</strong> Passage au quinquennat. Président et Assemblée élus ensemble = moins de cohabitations.</p><br>
+                    <p>✓ <strong>2024 :</strong> Dissolution crée le chaos. Trois camps, pas de majorité. Possible retour aux instabilités.</p>
+                </div>
+            </div>
+
+            <div class="fiche-card">
+                <div class="fiche-title">🎯 LES 10 CHOSES À RETENIR ABSOLUMENT</div>
+                <div class="fiche-content">
+                    <p>1️⃣ IVe Rép (1946-58) = Assemblée toute-puissante = CHAOS</p>
+                    <p>2️⃣ Ve Rép (1958-?) = Président tout-puissant = STABILITÉ (sauf 2024)</p>
+                    <p>3️⃣ De Gaulle fonde la Ve en 1958 en exploitant la Guerre d'Algérie</p>
+                    <p>4️⃣ 1965 = élection présidentielle directe (révolution !)</p>
+                    <p>5️⃣ 1981 = Alternance : MITTERRAND (gauche), pas la droite. C'est énorme !</p>
+                    <p>6️⃣ 1986-88 = Cohabitation = deux chefs qui se battent = les tensions</p>
+                    <p>7️⃣ 2002 = Quinquennat = pas de cohabitation possible normalement</p>
+                    <p>8️⃣ 1945 = Femmes votent, Sécurité Sociale = fondations modernes</p>
+                    <p>9️⃣ Mai 68 = révolte étudiante/ouvrière = De Gaulle panique et part</p>
+                    <p>🔟 2024 = Dissolution = retour du chaos à l'assemblée divisée</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let totalQuestions = 0;
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function checkAnswer(btn, isCorrect, explanation) {
+            // Disable all buttons in this card
+            const card = btn.closest('.quiz-card');
+            const options = card.querySelectorAll('.option-btn');
+            options.forEach(opt => opt.disabled = true);
+
+            // Show correct answer
+            options.forEach(opt => {
+                const isThisCorrect = opt === btn && isCorrect;
+                if (isThisCorrect) {
+                    opt.classList.add('correct');
+                } else if (opt !== btn && isCorrect) {
+                    // This is the correct button but user clicked elsewhere
+                } else if (opt !== btn && !isCorrect && options.indexOf(opt) > -1) {
+                    // Check if this is the right answer
+                    if (opt.textContent.includes('B) Charles de Gaulle') || 
+                        opt.textContent.includes('A) 1945') ||
+                        opt.textContent.includes('B) Abolition') ||
+                        opt.textContent.includes('A) Quand') ||
+                        opt.textContent.includes('B) Mai 1968')) {
+                        // Don't mark wrong buttons as correct
+                    }
+                }
+                
+                if (opt !== btn && opt.classList.contains('correct') === false && isCorrect === false && btn !== opt) {
+                    // This is wrong but user selected something else
+                } else if (opt === btn && !isCorrect) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            // Highlight the correct option
+            options.forEach(opt => {
+                if ((opt.textContent.includes('B) Charles de Gaulle') && explanation.includes('De Gaulle')) ||
+                    (opt.textContent.includes('A) 1945') && explanation.includes('1945')) ||
+                    (opt.textContent.includes('B) Abolition') && explanation.includes('Abolition')) ||
+                    (opt.textContent.includes('A) Quand') && explanation.includes('majorité')) ||
+                    (opt.textContent.includes('B) Mai 1968') && explanation.includes('Mai 1968'))) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                score++;
+            }
+            totalQuestions++;
+
+            // Show feedback
+            const feedback = card.querySelector('.feedback');
+            feedback.classList.add('show');
+            feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
+            feedback.textContent = isCorrect ? '✅ Correct ! ' + explanation : '❌ Incorrect. ' + explanation;
+
+            // Update score display
+            updateScoreDisplay();
+        }
+
+        function updateScoreDisplay() {
+            const scoreDisplay = document.querySelector('.score-display') || createScoreDisplay();
+            scoreDisplay.querySelector('.score-value').textContent = score + ' / ' + totalQuestions;
+        }
+
+        function createScoreDisplay() {
+            const display = document.createElement('div');
+            display.className = 'score-display';
+            display.innerHTML = '<div>Score</div><div class="score-value">0 / 0</div>';
+            document.body.appendChild(display);
+            return display;
+        }
+
+        // Initialize score display
+        createScoreDisplay();
+    </script>
+</body>
+</html>
